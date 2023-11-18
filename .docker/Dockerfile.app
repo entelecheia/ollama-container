@@ -2,15 +2,24 @@
 ARG ARG_BUILD_FROM="nvcr.io/nvidia/cuda:11.8.0-devel-ubuntu22.04"
 FROM $ARG_BUILD_FROM as base
 
+# Sets labels for the image
+LABEL org.opencontainers.image.source="https://github.com/entelecheia/ollama-container"
+LABEL org.opencontainers.image.description="Container images for running Ollama models on the container platforms."
+LABEL org.opencontainers.image.licenses="MIT"
+
 ARG TARGETARCH
 ARG GOFLAGS="'-ldflags=-w -s'"
+# Sets the time zone within the container
+ENV TZ="Asia/Seoul"
 
-WORKDIR /go/src/github.com/jmorganca/ollama
 RUN apt-get update && apt-get install -y git build-essential cmake
 ADD https://dl.google.com/go/go1.21.3.linux-$TARGETARCH.tar.gz /tmp/go1.21.3.tar.gz
 RUN mkdir -p /usr/local && tar xz -C /usr/local </tmp/go1.21.3.tar.gz
 
-COPY . .
+# Clones the repository into the container
+RUN git clone https://github.com/jmorganca/ollama.git /go/src/github.com/jmorganca/ollama
+# Sets the working directory
+WORKDIR /go/src/github.com/jmorganca/ollama
 ENV GOARCH=$TARGETARCH
 ENV GOFLAGS=$GOFLAGS
 RUN /usr/local/go/bin/go generate ./... \
