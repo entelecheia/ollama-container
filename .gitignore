@@ -1,0 +1,36 @@
+# environment files
+.env.secret
+
+# hypothesis: https://github.com/HypothesisWorks/hypothesis
+.hypothesis/
+
+# Ignore node_modules directory
+node_modules/
+
+# Jupyter Notebook
+_build/
+
+# Python
+*.py[cod]
+__pycache__/
+dist/
+.tox/
+*.egg-info/
+*.egg
+pytest_cache/
+pytest.xml
+.mypy_cache/
+
+# Coverage
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+htmlcov/
+pytest-coverage.*
+
+.vscode/
+
+workspace/
