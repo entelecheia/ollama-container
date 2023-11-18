@@ -27,7 +27,15 @@ RUN /usr/local/go/bin/go generate ./... \
 
 FROM ubuntu:22.04 as app
 
-RUN apt-get update && apt-get install -y ca-certificates
+# Setting this argument prevents interactive prompts during the build process
+ARG DEBIAN_FRONTEND=noninteractive
+# Updates the image and installs necessary packages
+RUN apt-get update --fix-missing \
+    && apt-get install -y curl wget jq sudo gosu ca-certificates \
+    # Cleans up unnecessary packages to reduce image size
+    && apt-get autoremove -y \
+    && apt-get clean -y
+# Copies the binary from the base image into the app image
 COPY --from=base /go/src/github.com/jmorganca/ollama/ollama /bin/ollama
 
 # Copies scripts from host into the image
