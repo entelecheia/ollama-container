@@ -37,7 +37,7 @@ services:
     volumes:
       # Maps directories from the host to the container
       - "$HOST_SCRIPTS_DIR:$APP_INSTALL_ROOT/scripts"
-      - "$HOST_OLLAMA_MODELS:$CONTAINER_OLLAMA_MODELS"
+      - "$HOST_OLLAMA_DIR:$CONTAINER_OLLAMA_DIR"
     deploy:
       resources:
         reservations:
