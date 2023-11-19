@@ -9,16 +9,18 @@ COMMAND                The operation to be performed. Must be one of: [build|con
 
 Options:
 -v, --variant IMAGE_VARIANT     Specify a variant for the Docker image.
+-p, --pid PROJECT_ID            Specify a project ID for the container instance.
 -r, --run RUN_COMMAND           Specify a command to run when using the 'run' command. Default: bash
 -h, --help                      Display this help message.
 
 Additional arguments can be provided after the Docker name, and they will be passed directly to the Docker Compose command.
 
 Example:
-$0 build -v base
+$0 build -v app
 "
 
 # declare arguments
+PROJECT_ID="default"
 COMMAND="build"
 VARIANT="base"
 RUN_COMMAND=""
@@ -39,6 +41,13 @@ while [[ $# -gt 0 ]]; do
         ;;
     --variant=*)
         VARIANT="${1#*=}"
+        ;;
+    -p | --pid)
+        PROJECT_ID="$2"
+        shift
+        ;;
+    --pid=*)
+        PROJECT_ID="${1#*=}"
         ;;
     -r | --run)
         RUN_COMMAND="$2"
@@ -116,6 +125,14 @@ if [ -e "${DOCKER_GLOBAL_ENV_FILENAME}" ]; then
 fi
 # shellcheck disable=SC1091
 source .docker/docker.version
+PROJECT_ID_ENV_FILE=".docker/.ids/${PROJECT_ID}.env"
+if [ -e "${PROJECT_ID_ENV_FILE}" ]; then
+    echo "Loading project ID specific environment variables from ${PROJECT_ID_ENV_FILE}"
+    set -x # print commands and thier arguments
+    # shellcheck disable=SC1091,SC1090
+    source "${PROJECT_ID_ENV_FILE}"
+    set +x # disable printing of environment variables
+fi
 if [ -e .docker/docker.common.env ]; then
     echo "Loading common environment variables from .docker/docker.common.env"
     set -x # print commands and thier arguments
@@ -140,6 +157,11 @@ else
     echo "Network ${CONTAINER_NETWORK_NAME} already exists."
 fi
 
+echo "Preparing local workspace directories"
+[ ! -d "${HOST_OLLAMA_MODELS}" ] && mkdir -p "${HOST_OLLAMA_MODELS}"
+
+PROJECT_NAME="${DOCKER_PROJECT_NAME}-${PROJECT_ID}"
+
 # run docker-compose
 if [ "${COMMAND}" == "push" ]; then
     CMD="docker push ${CONTAINER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
@@ -149,7 +171,7 @@ elif [ "${COMMAND}" == "login" ]; then
 elif [ "${COMMAND}" == "run" ]; then
     CMD="docker compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml run workspace ${RUN_COMMAND} ${ADDITIONAL_ARGS}"
 else
-    CMD="docker-compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml ${COMMAND} ${ADDITIONAL_ARGS}"
+    CMD="docker-compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml -p ${PROJECT_NAME} ${COMMAND} ${ADDITIONAL_ARGS}"
 fi
 echo "Running command: ${CMD}"
 eval "${CMD}"
