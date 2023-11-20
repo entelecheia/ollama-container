@@ -34,18 +34,18 @@ jobs:
         run: bash .github/scripts/free-disk-space.sh
 
       - name: Version from version file
-        uses: c-py/action-dotenv-to-setenv@v4
+        uses: c-py/action-dotenv-to-setenv@v5
         with:
           env-file: ./.docker/docker.version
 
       - name: Common environment Variables from Dotenv
-        uses: c-py/action-dotenv-to-setenv@v4
+        uses: c-py/action-dotenv-to-setenv@v5
         with:
           # use branch name as suffix for dotfile
           env-file: ./.docker/docker.common.env
 
       - name: Environment Variables from Dotenv
-        uses: c-py/action-dotenv-to-setenv@v4
+        uses: c-py/action-dotenv-to-setenv@v5
         with:
           env-file: ./.docker/docker.app.env
 
