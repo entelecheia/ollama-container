@@ -10,6 +10,7 @@ services:
       dockerfile: .docker/Dockerfile.app
       args:
         ARG_BUILD_FROM: $BUILD_FROM
+        ARG_IMAGE_VERSION: $IMAGE_VERSION
     # Sets the image name for the built image
     image: $IMAGE_NAME:$IMAGE_TAG
     # Sets the hostname of the container
