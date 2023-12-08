@@ -16,10 +16,16 @@ RUN apt-get update && apt-get install -y git build-essential cmake
 ADD https://dl.google.com/go/go1.21.3.linux-$TARGETARCH.tar.gz /tmp/go1.21.3.tar.gz
 RUN mkdir -p /usr/local && tar xz -C /usr/local </tmp/go1.21.3.tar.gz
 
+ARG ARG_IMAGE_VERSION="0.1.14"
+ENV IMAGE_VERSION=$ARG_IMAGE_VERSION
+
 # Clones the repository into the container
 RUN git clone https://github.com/jmorganca/ollama.git /go/src/github.com/jmorganca/ollama
 # Sets the working directory
 WORKDIR /go/src/github.com/jmorganca/ollama
+# Ckecks out the specified tag
+RUN git checkout tags/v$IMAGE_VERSION
+# Sets the environment variables for building the binary
 ENV GOARCH=$TARGETARCH
 ENV GOFLAGS=$GOFLAGS
 RUN /usr/local/go/bin/go generate ./... \
