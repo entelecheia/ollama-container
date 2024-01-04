@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="nvcr.io/nvidia/cuda:11.8.0-devel-ubuntu22.04"
+ARG ARG_BUILD_FROM="nvcr.io/nvidia/cuda:12.3.1-devel-ubuntu22.04"
 FROM $ARG_BUILD_FROM as base
 
 # Sets labels for the image
