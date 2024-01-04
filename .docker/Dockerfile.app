@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="nvcr.io/nvidia/cuda:11.8.0-devel-ubuntu22.04"
+ARG ARG_BUILD_FROM="nvcr.io/nvidia/cuda:12.3.1-devel-ubuntu22.04"
 FROM $ARG_BUILD_FROM as base
 
 # Sets labels for the image
@@ -31,7 +31,7 @@ ENV GOFLAGS=$GOFLAGS
 RUN /usr/local/go/bin/go generate ./... \
     && /usr/local/go/bin/go build .
 
-FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04 as app
+FROM nvidia/cuda:12.3.1-runtime-ubuntu22.04 as app
 
 # Setting this argument prevents interactive prompts during the build process
 ARG DEBIAN_FRONTEND=noninteractive
