@@ -12,7 +12,10 @@ ARG GOFLAGS="'-ldflags=-w -s'"
 # Sets the time zone within the container
 ENV TZ="Asia/Seoul"
 
-RUN apt-get update && apt-get install -y git build-essential cmake
+RUN apt-get update && apt-get install -y git build-essential cmake ccache
+RUN /usr/sbin/update-ccache-symlinks
+RUN export PATH="/usr/lib/ccache:$PATH"
+
 ADD https://dl.google.com/go/go1.21.3.linux-$TARGETARCH.tar.gz /tmp/go1.21.3.tar.gz
 RUN mkdir -p /usr/local && tar xz -C /usr/local </tmp/go1.21.3.tar.gz
 
