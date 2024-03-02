@@ -13,6 +13,7 @@ services:
         ARG_IMAGE_VERSION: $IMAGE_VERSION
     # Sets the image name for the built image
     image: $IMAGE_NAME:$IMAGE_TAG
+    container_name: $CONTAINER_NAME
     # Sets the hostname of the container
     hostname: $CONTAINER_HOSTNAME
     entrypoint:

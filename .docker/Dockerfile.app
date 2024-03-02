@@ -34,7 +34,7 @@ ENV GOFLAGS=$GOFLAGS
 RUN /usr/local/go/bin/go generate ./... \
     && /usr/local/go/bin/go build .
 
-FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04 as app
+FROM nvidia/cuda:12.3.2-runtime-ubuntu22.04 as app
 
 # Setting this argument prevents interactive prompts during the build process
 ARG DEBIAN_FRONTEND=noninteractive
