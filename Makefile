@@ -30,23 +30,26 @@ symlink-global-docker-env: ## symlink global docker env file for local developme
 docker-login: ## login to docker
 	@bash .docker/.docker-scripts/docker-compose.sh login
 
-docker-build-app: ## build the docker app image
+docker-build: ## build the docker app image
 	@bash .docker/.docker-scripts/docker-compose.sh build --variant app
 
-docker-config-app: ## show the docker app config
+docker-config: ## show the docker app config
 	@bash .docker/.docker-scripts/docker-compose.sh config --variant app
 
-docker-push-base: ## push the docker base image
-	@bash .docker/.docker-scripts/docker-compose.sh push --variant base
-
-docker-push-app: ## push the docker app image
+docker-push: ## push the docker app image
 	@bash .docker/.docker-scripts/docker-compose.sh push --variant app
 
-docker-run-app: ## run the docker app image
+docker-run: ## run the docker app image
 	@bash .docker/.docker-scripts/docker-compose.sh run --variant app
 
-docker-up-app: ## launch the docker app image
+docker-up: ## launch the docker app image
 	@bash .docker/.docker-scripts/docker-compose.sh up --variant app
 
-docker-up-app-detach: ## launch the docker app image in detached mode
+docker-up-detach: ## launch the docker app image in detached mode
 	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --detach
+
+docker-up-embed: ## launch the docker app image with pid embed
+	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid embed
+
+docker-up-embed-detach: ## launch the docker app image with pid embed in detached mode
+	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid embed --detach
