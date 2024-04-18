@@ -6,3 +6,4 @@ LICENSE
 .docker/docker.version
 .gitignore
 README.md
+Makefile
