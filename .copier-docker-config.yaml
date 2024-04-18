@@ -9,7 +9,7 @@ container_service_name: app
 container_workspace_root: /workspace
 copy_scripts_dir: true
 cuda_device_id: all
-docker_apt_packages: 
+docker_apt_packages: ''
 docker_build_from: nvcr.io/nvidia/cuda:11.8.0-devel-ubuntu22.04
 docker_container_uid: 9001
 docker_container_username: app
@@ -24,8 +24,8 @@ docker_timezone: Asia/Seoul
 docker_username: entelecheia
 email: entelecheia@hotmail.com
 enable_nvidia_gpu: true
-friendly_name: Ollma Container
-github_repo_name: ollma-containers
+friendly_name: Ollama Container
+github_repo_name: ollama-containers
 github_username: entelecheia
 install_dotfiles: false
 jupyter_host_port: 18998
@@ -33,9 +33,10 @@ jupyter_port: 8585
 jupyter_token: __juypter_token_(change_me)__
 launch_scripts: launch.sh
 main_branch: main
-project_description: ""
+project_description: ''
 project_license: MIT
-project_short_description: Container images for running ollma models on the container platforms.Container images for running ollma models on the container platforms.
+project_short_description: Container images for running ollma models on the container
+    platforms.Container images for running ollma models on the container platforms.
 ssh_host_port: 2929
 ssh_port: 22
 use_deploy_workflows: true

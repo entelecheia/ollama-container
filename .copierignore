@@ -1,0 +1,8 @@
+.copierignore
+.tasks-extra.toml
+CHANGELOG.md
+pyproject.toml
+LICENSE
+.docker/docker.version
+.gitignore
+README.md
