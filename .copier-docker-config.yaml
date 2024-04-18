@@ -36,7 +36,7 @@ main_branch: main
 project_description: ''
 project_license: MIT
 project_short_description: Container images for running ollma models on the container
-    platforms.Container images for running ollma models on the container platforms.
+    platforms.
 ssh_host_port: 2929
 ssh_port: 22
 use_deploy_workflows: true
