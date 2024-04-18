@@ -1,0 +1,11 @@
+.virtual_documents
+jupyterhub*
+.vscode
+.history
+workspace
+data
+refs
+tmp
+logs
+outputs
+.env*
