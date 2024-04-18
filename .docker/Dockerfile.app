@@ -1,6 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="nvcr.io/nvidia/cuda:11.8.0-devel-ubuntu22.04"
-FROM $ARG_BUILD_FROM as base
+FROM nvcr.io/nvidia/cuda:11.8.0-devel-ubuntu22.04 as base
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/entelecheia/ollama-container"
