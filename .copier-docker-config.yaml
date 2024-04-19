@@ -25,7 +25,7 @@ docker_username: entelecheia
 email: entelecheia@hotmail.com
 enable_nvidia_gpu: true
 friendly_name: Ollama Container
-github_repo_name: ollama-containers
+github_repo_name: ollama-container
 github_username: entelecheia
 install_dotfiles: false
 jupyter_host_port: 18998
