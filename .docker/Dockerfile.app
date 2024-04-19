@@ -44,7 +44,7 @@ RUN apt-get update --fix-missing \
     && apt-get autoremove -y \
     && apt-get clean -y
 # Copies the binary from the base image into the app image
-COPY --from=base /go/src/github.com/jmorganca/ollama/ollama /bin/ollama
+COPY --from=builder /go/src/github.com/jmorganca/ollama/ollama /bin/ollama
 
 # Setting ARGs and ENVs for user creation and workspace setup
 ARG ARG_USERNAME="app"
