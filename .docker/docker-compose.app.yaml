@@ -8,24 +8,28 @@ services:
       context: .
       # Specifies the Dockerfile to use for the build
       dockerfile: .docker/Dockerfile.app
+      # Specifies build-time variables (ARGs)
       args:
         ARG_BUILD_FROM: $BUILD_FROM
         ARG_IMAGE_VERSION: $IMAGE_VERSION
+        ARG_USERNAME: $CONTAINER_USERNAME
+        ARG_USER_UID: $CONTAINER_USER_UID
+        ARG_USER_GID: $CONTAINER_USER_GID
+        ARG_WORKSPACE_ROOT: $CONTAINER_WORKSPACE_ROOT
     # Sets the image name for the built image
     image: $IMAGE_NAME:$IMAGE_TAG
-    container_name: $CONTAINER_NAME
+    container_name: $CONTAINER_PROJECT_NAME
     # Sets the hostname of the container
     hostname: $CONTAINER_HOSTNAME
-    entrypoint:
-      # Specifies the command to be executed when the container is run
-      - /bin/bash
-      - "$APP_INSTALL_ROOT/scripts/entrypoint.sh"
     command:
       # Specifies the command to be executed when the container is run
       - "serve"
     # set the environment variables
     environment:
       USER_UID: $CONTAINER_USER_UID
+      USER_GID: $CONTAINER_USER_GID
+      WORKSPACE_ROOT: $CONTAINER_WORKSPACE_ROOT
+      IMAGE_VARIANT: $IMAGE_VARIANT
       # To avoid incorrect CUDA driver version errors
       NVIDIA_DISABLE_REQUIRE: True
     ulimits:
@@ -35,10 +39,10 @@ services:
     # Allows the container to use the host's IPC namespace
     ipc: $CONTAINER_IPC
     ports:
+      # Maps the container's SSH and Web service ports to the host's ports
       - "$HOST_WEB_SVC_PORT:$CONTAINER_WEB_SVC_PORT"
     volumes:
       # Maps directories from the host to the container
-      - "$HOST_SCRIPTS_DIR:$APP_INSTALL_ROOT/scripts"
       - "$HOST_OLLAMA_DIR:$CONTAINER_OLLAMA_DIR"
     deploy:
       resources:
