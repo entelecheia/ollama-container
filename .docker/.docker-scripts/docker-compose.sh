@@ -16,14 +16,14 @@ Options:
 Additional arguments can be provided after the Docker name, and they will be passed directly to the Docker Compose command.
 
 Example:
-$0 build -v app
+$0 build -v base
 "
 
 # declare arguments
-PROJECT_ID="default"
+PROJECT_ID=${DOCKER_PROJECT_ID:-"default"}
 COMMAND="build"
-VARIANT="base"
-RUN_COMMAND=""
+VARIANT=${IMAGE_VARIANT:-"app"}
+RUN_COMMAND="bash"
 ADDITIONAL_ARGS=""
 
 set +u
@@ -150,6 +150,7 @@ fi
 set +a
 
 # prepare docker network
+CONTAINER_NETWORK_NAME=${CONTAINER_NETWORK_NAME:-""}
 if [[ -n "${CONTAINER_NETWORK_NAME}" ]] && ! docker network ls | grep -q "${CONTAINER_NETWORK_NAME}"; then
     echo "Creating network ${CONTAINER_NETWORK_NAME}"
     docker network create "${CONTAINER_NETWORK_NAME}"
@@ -157,10 +158,13 @@ else
     echo "Network ${CONTAINER_NETWORK_NAME} already exists."
 fi
 
+# prepare local workspace to be mounted
 echo "Preparing local workspace directories"
-[ ! -d "${HOST_OLLAMA_MODELS}" ] && mkdir -p "${HOST_OLLAMA_MODELS}"
-
-PROJECT_NAME="${DOCKER_PROJECT_NAME}-${PROJECT_ID}"
+[ ! -d "${HOST_WORKSPACE_ROOT}" ] && mkdir -p "${HOST_WORKSPACE_ROOT}"
+[ ! -d "${HOST_SCRIPTS_DIR}" ] && cp -r "$PWD/.docker/scripts" "${HOST_SCRIPTS_DIR}"
+[ ! -d "${HOST_SSH_DIR}" ] && mkdir -p "${HOST_SSH_DIR}"
+[ ! -d "${HOST_CACHE_DIR}" ] && mkdir -p "${HOST_CACHE_DIR}"
+[ ! -d "${HOST_HF_HOME}" ] && mkdir -p "${HOST_HF_HOME}"
 
 # run docker-compose
 if [ "${COMMAND}" == "push" ]; then
@@ -169,9 +173,9 @@ elif [ "${COMMAND}" == "login" ]; then
     echo "GITHUB_CR_PAT: $GITHUB_CR_PAT"
     CMD="docker login ghcr.io -u $GITHUB_USERNAME"
 elif [ "${COMMAND}" == "run" ]; then
-    CMD="docker compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml run workspace ${RUN_COMMAND} ${ADDITIONAL_ARGS}"
+    CMD="docker compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml run app ${RUN_COMMAND} ${ADDITIONAL_ARGS}"
 else
-    CMD="docker-compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml -p ${PROJECT_NAME} ${COMMAND} ${ADDITIONAL_ARGS}"
+    CMD="docker-compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml -p ${CONTAINER_PROJECT_NAME} ${COMMAND} ${ADDITIONAL_ARGS}"
 fi
 echo "Running command: ${CMD}"
 eval "${CMD}"
