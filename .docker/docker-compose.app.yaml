@@ -32,6 +32,7 @@ services:
       IMAGE_VARIANT: $IMAGE_VARIANT
       # To avoid incorrect CUDA driver version errors
       NVIDIA_DISABLE_REQUIRE: True
+      OLLAMA_HOST: "0.0.0.0:11434"
     ulimits:
       # Sets the stack size and memory lock limits
       stack: 67108864
