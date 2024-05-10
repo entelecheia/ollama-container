@@ -10,7 +10,7 @@ container_workspace_root: /workspace
 copy_scripts_dir: true
 cuda_device_id: all
 docker_apt_packages: ''
-docker_build_from: nvcr.io/nvidia/cuda:11.8.0-devel-ubuntu22.04
+docker_build_from: nvidia/cuda:12.4.1-devel-ubuntu22.04
 docker_container_uid: 9001
 docker_container_username: app
 docker_image_variant_name: app
