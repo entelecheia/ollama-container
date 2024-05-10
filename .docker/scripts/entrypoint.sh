@@ -38,4 +38,4 @@ if [ "$USER_UID" != "$LOCAL_UID" ]; then
 fi
 
 # Run the provided command
-exec gosu "${USER}" /bin/ollama "$@"
+exec gosu "${USERNAME}" /bin/ollama "$@"
