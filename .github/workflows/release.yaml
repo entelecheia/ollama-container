@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - release
+      - main
 
 permissions:
   contents: write
@@ -33,7 +33,7 @@ jobs:
       tag-exists: ${{ steps.create-tag.outputs.tag_exists }}
       release-body: ${{ steps.generate-body.outputs.body }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Generate body
