@@ -7,6 +7,9 @@ on:
     branches:
       - release
 
+permissions:
+  contents: write
+
 jobs:
   check-commit:
     runs-on: ubuntu-latest
@@ -51,6 +54,8 @@ jobs:
           tag: ${{ needs.check-commit.outputs.version }}
           tag_exists_error: true
           message: ${{ needs.check-commit.outputs.version }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   create-release:
     runs-on: ubuntu-latest
     needs: ["check-commit", "create-tag"]
@@ -63,3 +68,5 @@ jobs:
           tag: ${{ needs.check-commit.outputs.version }}
           name: ${{ needs.check-commit.outputs.version }}
           body: ${{ needs.create-tag.outputs.release-body }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
