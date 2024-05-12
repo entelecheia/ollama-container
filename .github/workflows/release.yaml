@@ -24,7 +24,7 @@ jobs:
         shell: bash
       - name: Get version
         id: get-version
-        run: echo "version=$(cat .docker/docker.version | grep -oP 'OLLAMA_VERSION="\K(\d|\.)+')" >> $GITHUB_OUTPUT
+        run: echo "version=v$(cat .docker/docker.version | grep -oP 'OLLAMA_VERSION="\K(\d|\.)+')" >> $GITHUB_OUTPUT
         shell: bash
   create-tag:
     runs-on: ubuntu-latest
