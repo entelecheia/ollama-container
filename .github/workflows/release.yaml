@@ -6,6 +6,9 @@ on:
   push:
     branches:
       - release
+      - main
+    paths:
+      - ".docker/docker.version"
 
 permissions:
   contents: write
