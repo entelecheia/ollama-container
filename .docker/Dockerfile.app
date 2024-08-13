@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-FROM nvidia/cuda:12.4.1-devel-ubuntu22.04 AS builder
+FROM nvidia/cuda:12.6.0-devel-ubuntu22.04 AS builder
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/entelecheia/ollama-container"
@@ -33,7 +33,7 @@ ENV GOFLAGS=$GOFLAGS
 RUN /usr/local/go/bin/go generate ./... \
     && /usr/local/go/bin/go build .
 
-FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04 as app
+FROM nvidia/cuda:12.6.0-runtime-ubuntu22.04 as app
 
 # Setting this argument prevents interactive prompts during the build process
 ARG DEBIAN_FRONTEND=noninteractive
