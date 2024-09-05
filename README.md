@@ -3,7 +3,7 @@
 Container images for running Ollama models on the container platforms.
 
 - GitHub: [https://github.com/entelecheia/ollama-container][repo-url]
-- Ollama: [https://github.com/jmorganca/ollama](https://github.com/jmorganca/ollama)
+- Ollama: [https://github.com/ollama/ollama](https://github.com/ollama/ollama)
 
 Get up and running with large language models locally.
 
