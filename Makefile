@@ -42,25 +42,47 @@ docker-login: ## login to docker
 	@bash .docker/.docker-scripts/docker-compose.sh login
 
 docker-build: ## build the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh build --variant app
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	bash .docker/.docker-scripts/docker-compose.sh build
 
 docker-config: ## show the docker app config
-	@bash .docker/.docker-scripts/docker-compose.sh config --variant app
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	bash .docker/.docker-scripts/docker-compose.sh config
 
 docker-push: ## push the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh push --variant app
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	bash .docker/.docker-scripts/docker-compose.sh push
 
 docker-run: ## run the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh run --variant app
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	bash .docker/.docker-scripts/docker-compose.sh run
 
 docker-up: ## launch the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh up
 
 docker-up-detach: ## launch the docker app image in detached mode
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --detach
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh up  --detach
 
 docker-up-embed: ## launch the docker app image with pid embed
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid embed
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"embed"} \
+	bash .docker/.docker-scripts/docker-compose.sh up
 
 docker-up-embed-detach: ## launch the docker app image with pid embed in detached mode
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid embed --detach
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"embed"} \
+	bash .docker/.docker-scripts/docker-compose.sh up  --detach
+
+docker-up-vision: ## launch the docker app image with pid embed
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"vision"} \
+	bash .docker/.docker-scripts/docker-compose.sh up
+
+docker-up-vision-detach: ## launch the docker app image with pid embed in detached mode
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"runtime"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"vision"} \
+	bash .docker/.docker-scripts/docker-compose.sh up  --detach

@@ -23,7 +23,7 @@ $0 build -v base
 PROJECT_ID=${DOCKER_PROJECT_ID:-"default"}
 COMMAND="build"
 VARIANT=${IMAGE_VARIANT:-"app"}
-RUN_COMMAND="bash"
+RUN_COMMAND=""
 ADDITIONAL_ARGS=""
 
 set +u

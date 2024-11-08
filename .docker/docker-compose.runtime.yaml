@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  # Defines a service name
+  app:
+    # Sets the image name for the built image
+    image: ollama/ollama:$IMAGE_TAG
+    container_name: $CONTAINER_PROJECT_NAME
+    # Sets the hostname of the container
+    hostname: $CONTAINER_HOSTNAME
+    # command:
+    #   # Specifies the command to be executed when the container is run
+    #   - "serve"
+    # set the environment variables
+    environment:
+      # To avoid incorrect CUDA driver version errors
+      NVIDIA_DISABLE_REQUIRE: True
+      OLLAMA_HOST: "0.0.0.0:11434"
+    ulimits:
+      # Sets the stack size and memory lock limits
+      stack: 67108864
+      memlock: -1
+    # Allows the container to use the host's IPC namespace
+    ipc: $CONTAINER_IPC
+    ports:
+      # Maps the container's SSH and Web service ports to the host's ports
+      - "$HOST_WEB_SVC_PORT:$CONTAINER_WEB_SVC_PORT"
+    volumes:
+      # Maps directories from the host to the container
+      - "$HOST_OLLAMA_DIR:$CONTAINER_OLLAMA_DIR"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            # Reserves the specified GPU for the container
+            - driver: nvidia
+              device_ids: ["${CONTAINER_CUDA_DEVICE_ID}"]
+              capabilities: [gpu]
+networks:
+  default:
+    # Sets the name of the default network and makes it external
+    name: $CONTAINER_NETWORK_NAME
+    external: true
