@@ -20,7 +20,7 @@ jobs:
       result: ${{ steps.check.outputs.result }}
       version: ${{ steps.get-version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Check commit message
         id: check
         run: echo "result=$(echo '${{ github.event.head_commit.message }}' | grep -oP '^Update version to v(\d|\.)+$')" >> $GITHUB_OUTPUT
@@ -36,7 +36,7 @@ jobs:
       tag-exists: ${{ steps.create-tag.outputs.tag_exists }}
       release-body: ${{ steps.generate-body.outputs.body }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Generate body
@@ -64,7 +64,7 @@ jobs:
     needs: ["check-commit", "create-tag"]
     if: ${{ needs.create-tag.outputs.tag-exists == 'false' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:

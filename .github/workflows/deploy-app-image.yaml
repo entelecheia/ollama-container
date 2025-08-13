@@ -27,7 +27,7 @@ jobs:
       #
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Secure disk space for the build
         run: bash .github/scripts/free-disk-space.sh
